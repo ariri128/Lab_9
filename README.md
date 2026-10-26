@@ -4,7 +4,7 @@
 This is a carnival duck shooting gallery. The player controls a rifle at the bottom of the screen and shoots ducks as they ride across three wooden shelves. The ducks come out from behind the curtains on one side, bob up and down as they move, and disappear behind the curtains on the other side. The shelves alternate direction. Each duck type is a different size and speed and is worth a different number of points, and the score updates every time a duck it hit.
 **Controls:** A / D (or the left and right arrow keys) move the rifle, and holding the left mouse button (or Enter) fires the bullet.
 
-**Design Patterns** <br>
+**Design Patterns** <br> <br>
 **Object Pool (bullets)**<br>
 Files: BulletPool.cs, Bullet.cs, ShooterController.cs <br>
 Instead of instantiating a bullet every time the player shoots and destroying it when it's done, this reuses the same set of bullets.
@@ -15,7 +15,7 @@ Instead of instantiating a bullet every time the player shoots and destroying it
 
 During play, the number of bullets under the BulletPool object in the Hierarchy stays the same. They just turn on and offs.
 
-**Builder (ducks)**
+**Builder (ducks)** <br>
 Files: ITargetBuilder.cs, TargetBuilding.cs, TargetDirector.cs, TargetConfig.cs, TargetSpawner.cs
 This is set up the same way as the spaceship example from class:
 * ITargetBuilding (the interface) lists the steps for putting a duck together: SetSprite, SetColor, SetSize, SetSpeed, SetPointValue, SetPosition, SetDirection, and Build. Each step returns the builder, so the calls can be chained.
@@ -25,16 +25,16 @@ This is set up the same way as the spaceship example from class:
 
 TargetSpawner handles the timing. Every spawn interval, it picks a random shelf and a random duck config and asks the director to build the duck just past the edge of the screen, behind the curtain. Every duck comes from the same prefab, so adding a new duck type only means making a new TargetConfig asset. No code has to change.
 
-**Observer (score)**
+**Observer (score)** <br>
 Files: Target.cs, ScoreManager.cs
 * **Subject:** Target has public static event Action<int> OnTargetHit. When a bullet hits a duck, Bullet calls target.Hit(), which raises the event with that duck's point value and then removes the duck. A flag makes sure a duck only counts once if two bullets hit it in the same frame.
 * **Observer:** ScoreManager subscribes to OnTargetHit in OnEnable() and unsubscribes in OnDisable(). When the event fires, HandleTargetHit(points) adds the points to the score and updates the score text.
 
 The ducks don't have a reference to ScoreManager and don't know anything about it. They only raise the event. Something else, like a sound effect or a high score tracker, could subscribe to OnTargetHit later without any changes to Target.
 
-**Other Scripts**
+**Other Scripts** <br>
 * ShooterController - moves the rifle and keeps it on screen, and fires bullets from the pool
 * ScreenBounds - gets the edges of teh screen from the camera so nothing has hardcoded screen positions
 
-**Assets**
+**Assets** <br>
 The art is from Kenny's Shooting Gallery pack (CC0): https://kenney.nl/assets/shooting-gallery 
