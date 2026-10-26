@@ -4,9 +4,9 @@
 This is a carnival duck shooting gallery. The player controls a rifle at the bottom of the screen and shoots ducks as they ride across three wooden shelves. The ducks come out from behind the curtains on one side, bob up and down as they move, and disappear behind the curtains on the other side. The shelves alternate direction. Each duck type is a different size and speed and is worth a different number of points, and the score updates every time a duck it hit.
 **Controls:** A / D (or the left and right arrow keys) move the rifle, and holding the left mouse button (or Enter) fires the bullet.
 
-**Design Patterns**
-**Object Pool (bullets)**
-Files: BulletPool.cs, Bullet.cs, ShooterController.cs
+**Design Patterns** <br>
+**Object Pool (bullets)**<br>
+Files: BulletPool.cs, Bullet.cs, ShooterController.cs <br>
 Instead of instantiating a bullet every time the player shoots and destroying it when it's done, this reuses the same set of bullets.
 * In Awake(), BulletPool instantiates 20 bullets, turns them off and puts them in a Queue<Bullet>.
 * When the player fires, ShooterController calls bulletPool.Get(), which takes a bullet out of the queue. Bullet.Launch() then moves it to the fire point at the tip of the rifle, turns it on and sends it straight up.
