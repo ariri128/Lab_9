@@ -1,6 +1,6 @@
 # Lab_9
 
-**About the Game**
+**About the Game** <br>
 This is a carnival duck shooting gallery. The player controls a rifle at the bottom of the screen and shoots ducks as they ride across three wooden shelves. The ducks come out from behind the curtains on one side, bob up and down as they move, and disappear behind the curtains on the other side. The shelves alternate direction. Each duck type is a different size and speed and is worth a different number of points, and the score updates every time a duck it hit.
 **Controls:** A / D (or the left and right arrow keys) move the rifle, and holding the left mouse button (or Enter) fires the bullet.
 
