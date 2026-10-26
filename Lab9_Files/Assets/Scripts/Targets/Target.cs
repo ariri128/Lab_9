@@ -12,12 +12,16 @@ public class Target : MonoBehaviour
     public static event Action<int> OnTargetHit;
 
     [SerializeField] private float despawnMargin = 1f;
+    [SerializeField] private float bobHeight = 0.08f;
+    [SerializeField] private float bobSpeed = 6f;
 
     private SpriteRenderer spriteRenderer;
     private BoxCollider2D boxCollider;
     private float speed;
     private int pointValue;
     private float direction = 1f;
+    private float baseY;
+    private float bobPhase;
     private bool isHit;
 
     // Caches the renderer and collider the builder configures
@@ -27,7 +31,7 @@ public class Target : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
-    // Applies the values chosen by the builder and fits the collider to the new sprite
+    // Applies the values chosen by the builder, fits the collider to the new sprite and picks a random starting point for the bob
     public void Initialize(Sprite sprite, Color color, float speed, int pointValue, float direction)
     {
         if (sprite != null)
@@ -42,14 +46,19 @@ public class Target : MonoBehaviour
         this.speed = speed;
         this.pointValue = pointValue;
         this.direction = direction;
+        baseY = transform.position.y;
+        bobPhase = UnityEngine.Random.Range(0f, 2f * Mathf.PI);
     }
 
-    // Moves the target along its lane and removes it after it passes the far edge of the screen
+    // Moves the target along its shelf while bobbing up and down, and removes it after it passes the far edge of the screen
     private void Update()
     {
-        transform.Translate(Vector3.right * direction * speed * Time.deltaTime, Space.World);
+        Vector3 position = transform.position;
+        position.x += direction * speed * Time.deltaTime;
+        position.y = baseY + Mathf.Sin(Time.time * bobSpeed + bobPhase) * bobHeight;
+        transform.position = position;
 
-        if (transform.position.x * direction > ScreenBounds.HalfWidth + despawnMargin)
+        if (position.x * direction > ScreenBounds.HalfWidth + despawnMargin)
         {
             Destroy(gameObject);
         }

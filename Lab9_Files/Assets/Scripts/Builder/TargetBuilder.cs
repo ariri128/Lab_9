@@ -87,7 +87,7 @@ public class TargetBuilder : ITargetBuilder
         return this;
     }
 
-    // Instantiates the prefab and applies every collected setting to produce the finished target
+    // Instantiates the prefab, raises it so its bottom sits on the shelf at any size, and applies every collected setting to produce the finished target
     public Target Build()
     {
         if (prefab == null)
@@ -96,7 +96,13 @@ public class TargetBuilder : ITargetBuilder
             return null;
         }
 
-        Target target = Object.Instantiate(prefab, position, Quaternion.identity, parent);
+        Vector3 spawnPosition = position;
+        if (sprite != null)
+        {
+            spawnPosition.y -= sprite.bounds.min.y * size;
+        }
+
+        Target target = Object.Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
         target.transform.localScale = Vector3.one * size;
         target.Initialize(sprite, color, speed, pointValue, direction);
         return target;
